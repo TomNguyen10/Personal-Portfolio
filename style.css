@@ -599,7 +599,7 @@ header .navbar ul li a:hover {
 /* skills section starts */
 .skills {
   min-height: 90vh;
-  background: linear-gradient(to bottom, #57059e, #4a00e0);
+  background: linear-gradient(to bottom, #ee4266, #2a1e5c);
 }
 .skills h2 {
   color: #fff;
@@ -608,7 +608,7 @@ header .navbar ul li a:hover {
   color: rgb(255, 230, 0);
 }
 .skills .container {
-  background: rgba(0, 0, 22, 0.4);
+  background: #0a0f0d;
   color: #fff;
   border-radius: 1rem;
   padding: 2rem;
@@ -626,12 +626,12 @@ header .navbar ul li a:hover {
   margin-bottom: 15px;
   padding: 10px;
   border-radius: 1rem;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-  background: rgba(0, 0, 22, 0.9);
+  box-shadow: 0 4px 10px black;
+  background: #c4cbca;
   transition: 0.2s;
 }
 .skills .container .bar:hover {
-  box-shadow: 0 8px 10px rgba(0, 2, 68, 0.8) !important;
+  box-shadow: 0 8px 10px #668586(0, 2, 68, 0.8) !important;
   background-color: rgba(0, 0, 0, 0.9) !important;
 }
 .skills .container .bar .info {
@@ -641,8 +641,10 @@ header .navbar ul li a:hover {
   gap: 1rem;
   margin-top: 1rem;
 }
-.skills .container .bar .info i {
-  font-size: 4rem;
+.skills .container .bar .info img {
+  width: 48px; /* Fixed size */
+  height: 48px; /* Fixed size */
+  object-fit: cover; /* Ensure the image covers the given size while maintaining aspect ratio */
 }
 .skills .container .bar .info span {
   font-size: 2rem;
@@ -650,7 +652,7 @@ header .navbar ul li a:hover {
   font-family: "Poppins";
   margin-left: 0.5rem;
 }
-/* skills media queries starts*/
+/* skills media queries starts */
 @media screen and (max-width: 600px) {
   .skills .container {
     padding: 0;
@@ -667,6 +669,7 @@ header .navbar ul li a:hover {
     width: 100%;
   }
 }
+
 /* education section starts */
 .education {
   background: #e5ecfb;

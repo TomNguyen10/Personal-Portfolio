@@ -42,13 +42,7 @@ $(document).ready(function () {
 
 // <!-- typed js effect starts -->
 var typed = new Typed(".typing-text", {
-  strings: [
-    "Fullstack Development",
-    "Cloud Engineer",
-    "Software Developer",
-    "Android Development",
-    "Data Engineer",
-  ],
+  strings: ["Fullstack Developer", "AI Engineer", "Data Engineer"],
   loop: true,
   typeSpeed: 50,
   backSpeed: 25,
@@ -124,43 +118,32 @@ function showProjects(projects) {
   srtop.reveal(".work .box", { interval: 200 });
 }
 
-function submitForm(event) {
-  event.preventDefault(); // Prevent the default form submission behavior
+async function submitForm(event) {
+  event.preventDefault();
+  const form = document.getElementById("contact-form");
+  const formData = new FormData(form);
+  const statusMessage = document.getElementById("status-message");
 
-  // Collect form data
-  const name = document.getElementById("name").value;
-  const email = document.getElementById("email").value;
-  const message = document.getElementById("message").value;
-
-  // Create an object to hold the form data
-  const formData = {
-    name,
-    email,
-    message,
-  };
-
-  // Send the data to the server-side script using the Fetch API
-  fetch("process.php", {
+  const response = await fetch("/send-email", {
     method: "POST",
+    body: JSON.stringify({
+      name: formData.get("name"),
+      email: formData.get("email"),
+      message: formData.get("message"),
+    }),
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify(formData),
-  })
-    .then((response) => {
-      if (response.ok) {
-        // Handle a successful response (e.g., show a confirmation message)
-        alert("Message sent successfully.");
-        document.getElementById("contact-form").reset(); // Clear the form
-      } else {
-        // Handle errors if the server-side script encounters an issue
-        alert("Message could not be sent.");
-      }
-    })
-    .catch((error) => {
-      // Handle network-related errors
-      console.error("An error occurred:", error);
-    });
+  });
+
+  if (response.ok) {
+    statusMessage.textContent = "Message sent successfully!";
+    statusMessage.style.color = "green";
+    form.reset();
+  } else {
+    statusMessage.textContent = "Failed to send message. Please try again.";
+    statusMessage.style.color = "red";
+  }
 }
 
 fetchData().then((data) => {
