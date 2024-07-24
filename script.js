@@ -118,33 +118,42 @@ function showProjects(projects) {
   srtop.reveal(".work .box", { interval: 200 });
 }
 
-async function submitForm(event) {
-  event.preventDefault();
-  const form = document.getElementById("contact-form");
-  const formData = new FormData(form);
-  const statusMessage = document.getElementById("status-message");
+document
+  .getElementById("contact-form")
+  .addEventListener("submit", async function (event) {
+    event.preventDefault();
+    const form = event.target;
+    const formData = new FormData(form);
+    const statusMessage = document.getElementById("status-message");
 
-  const response = await fetch("/send-email", {
-    method: "POST",
-    body: JSON.stringify({
-      name: formData.get("name"),
-      email: formData.get("email"),
-      message: formData.get("message"),
-    }),
-    headers: {
-      "Content-Type": "application/json",
-    },
+    try {
+      const response = await fetch("/api/sendEmail", {
+        method: "POST",
+        body: JSON.stringify({
+          name: formData.get("name"),
+          email: formData.get("email"),
+          message: formData.get("message"),
+        }),
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      const result = await response.json();
+
+      if (response.ok) {
+        statusMessage.textContent = "Message sent successfully!";
+        statusMessage.style.color = "green";
+        form.reset();
+      } else {
+        statusMessage.textContent = `Error: ${result.error}`;
+        statusMessage.style.color = "red";
+      }
+    } catch (error) {
+      statusMessage.textContent = `Error: ${error.message}`;
+      statusMessage.style.color = "red";
+    }
   });
-
-  if (response.ok) {
-    statusMessage.textContent = "Message sent successfully!";
-    statusMessage.style.color = "green";
-    form.reset();
-  } else {
-    statusMessage.textContent = "Failed to send message. Please try again.";
-    statusMessage.style.color = "red";
-  }
-}
 
 fetchData().then((data) => {
   showSkills(data);
