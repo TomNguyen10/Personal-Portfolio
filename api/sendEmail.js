@@ -1,35 +1,28 @@
-// api/sendEmail.js
-import fetch from "node-fetch";
+const Resend = require("resend");
+const { RESEND_API_KEY } = process.env;
 
-export default async function handler(req, res) {
+const resend = new Resend(RESEND_API_KEY);
+
+module.exports = async (req, res) => {
   if (req.method === "POST") {
     const { name, email, message } = req.body;
+    console.log("Form Data:", { name, email, message });
 
     try {
-      const response = await fetch("https://api.resend.io/v1/emails", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${process.env.RESEND_API_KEY}`, // Securely store API key in environment variables
-        },
-        body: JSON.stringify({
-          to: "dungnguyen_2025@depauw.edu",
-          subject: `Contact Form Submission from ${name}`,
-          text: `Message from ${name} (${email}):\n\n${message}`,
-        }),
+      await resend.emails.send({
+        from: "dungnguyen_2025@depauw.edu",
+        to: "dungnguyen_2025@depauw.edu",
+        subject: `New contact form submission from ${name}`,
+        text: `You have received a new message from ${name} (${email}):\n\n${message}`,
       });
 
-      if (response.ok) {
-        res.status(200).json({ message: "Message sent successfully!" });
-      } else {
-        const result = await response.json();
-        res.status(response.status).json({ error: result.error.message });
-      }
+      console.log("Email sent successfully");
+      res.status(200).json({ message: "Email sent successfully" });
     } catch (error) {
-      res.status(500).json({ error: error.message });
+      console.error("Failed to send email:", error);
+      res.status(500).json({ error: "Failed to send email" });
     }
   } else {
-    res.setHeader("Allow", ["POST"]);
-    res.status(405).end(`Method ${req.method} Not Allowed`);
+    res.status(405).json({ error: "Method not allowed" });
   }
-}
+};
