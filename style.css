@@ -90,10 +90,7 @@ body {
 }
 .portfolios .portfolio-item {
   color: white;
-  text-shadow:
-    -1px 1px 0 #000,
-    1px 1px 0 #000,
-    1px -1px 0 #000,
+  text-shadow: -1px 1px 0 #000, 1px 1px 0 #000, 1px -1px 0 #000,
     -1px -1px 0 #000;
   text-align: center;
 
@@ -1136,6 +1133,7 @@ form .message textarea {
   border-radius: 5px;
   border: 1px solid rgb(51, 51, 51);
   background: #e5ecfb;
+  text-transform: none;
 }
 .field input::placeholder,
 .message textarea::placeholder {
@@ -1226,6 +1224,7 @@ form .button-area {
     margin-right: 2rem;
   }
 }
+
 /* contact section media queries ends */
 /* contact section ends */
 
